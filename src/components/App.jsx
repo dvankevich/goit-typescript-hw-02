@@ -1,4 +1,5 @@
 import './App.css';
+import ErrorMessage from './ErrorMessage/ErrorMessage';
 import SearchBar from './SearchBar/SearchBar';
 
 const handleSearch = searchTerm => {
@@ -9,7 +10,7 @@ function App() {
   return (
     <>
       <SearchBar onSubmit={handleSearch} />
-      <h1>goit-react-hw-04</h1>
+      <ErrorMessage errorMsg="Server not found" />
     </>
   );
 }
