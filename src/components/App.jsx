@@ -1,6 +1,7 @@
 import './App.css';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import ImageGallery from './ImageGallery/ImageGallery';
+import Loader from './Loader/Loader';
 import SearchBar from './SearchBar/SearchBar';
 
 const handleSearch = searchTerm => {
@@ -13,6 +14,7 @@ function App() {
       <SearchBar onSubmit={handleSearch} />
       <ErrorMessage errorMsg="Server not found" />
       <ImageGallery />
+      <Loader />
     </>
   );
 }
