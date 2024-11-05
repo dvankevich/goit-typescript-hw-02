@@ -1,9 +1,7 @@
 const ErrorMessage = ({ errorMsg }) => {
-  console.log(errorMsg);
-
   return (
     <div>
-      <h2>Something went wrong!!!</h2>
+      <h2>Whoops, something went wrong! Please try reloading this page!</h2>
       <p>{errorMsg}</p>
     </div>
   );
