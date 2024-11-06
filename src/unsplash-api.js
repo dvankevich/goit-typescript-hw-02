@@ -12,7 +12,7 @@ export async function fetchResponse() {
     Authorization: 'Client-ID o4C13rGbT_u5Vq3h83n03CpOGqwS0N_oj1Gd8F1ik0g',
   };
   const reqOptions = {
-    url: 'https://api.unsplash.com/search/photos?query=grogu&per_page=3&page=1',
+    url: 'https://api.unsplash.com/search/photos?query=grogu&per_page=3&page=2',
     method: 'GET',
     headers: headersList,
   };
