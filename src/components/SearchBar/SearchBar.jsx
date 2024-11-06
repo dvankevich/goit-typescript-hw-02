@@ -5,7 +5,7 @@ const SearchBar = ({ onSubmit }) => {
     toast.error('search text must be longer than 2 characters');
   const handleSubmit = evt => {
     const form = evt.target;
-    const searchTerm = form.elements.searchTerm.value;
+    const searchTerm = form.elements.searchTerm.value.trim();
     evt.preventDefault();
     if (searchTerm.length < 3) {
       showToast();
@@ -20,6 +20,8 @@ const SearchBar = ({ onSubmit }) => {
         <input
           type="text"
           name="searchTerm"
+          autoComplete="off"
+          autoFocus
           placeholder="Search images and photos"
         />
         <button type="submit">Search</button>
