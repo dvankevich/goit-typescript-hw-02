@@ -11,6 +11,7 @@ function App() {
   const [nextUrl, setNextUrl] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const apiUrl = 'https://api.unsplash.com/search/photos';
   const perPage = 15;
@@ -37,15 +38,18 @@ function App() {
 
   const handleSearch = searchTerm => {
     //console.log(searchTerm);
+    setError(false);
+    setErrorMessage('');
     async function getImages() {
       try {
         setLoading(true);
         const apiResponse = await fetchResponse(
           `${apiUrl}?query=${searchTerm}&per_page=${perPage}&page=1`
         );
-        setResults(prevResults => {
-          [...prevResults, ...apiResponse.data.results];
-        });
+        // setResults(prevResults => {
+        //   return [...prevResults, ...apiResponse.data.results];
+        // });
+        setResults(apiResponse.data.results);
         setNextUrl(getNextUrl(apiResponse.headers.link));
       } catch (error) {
         // https://rapidapi.com/guides/handle-axios-errors
@@ -56,15 +60,24 @@ function App() {
           console.log(error.response.data);
           console.log(error.response.status);
           console.log(error.response.headers);
+          setErrorMessage(
+            `Request made but the server responded with an error: ${error.response.data}`
+          );
         } else if (error.request) {
           // Request made but no response is received from the server.
           console.log(
             'Request made but no response is received from the server.'
           );
           console.log(error.request);
+          setErrorMessage(
+            `Request made but no response is received from the server. ${error.request}`
+          );
         } else {
           // Error occured while setting up the request
           console.log('Error:', error.message);
+          setErrorMessage(
+            `Error occured while setting up the request: ${error.message}`
+          );
         }
       } finally {
         setLoading(false);
@@ -84,9 +97,9 @@ function App() {
   return (
     <>
       <SearchBar onSubmit={handleSearch} />
+      {results.length > 0 && <ImageGallery results={results} />}
       {loading && <Loader />}
-      {error && <ErrorMessage errorMsg="Server not found" />}
-      <ImageGallery />
+      {error && <ErrorMessage errorMsg={errorMessage} />}
     </>
   );
 }
