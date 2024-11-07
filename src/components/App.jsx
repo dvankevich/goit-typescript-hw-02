@@ -37,6 +37,33 @@ function App() {
     return result.find(entry => entry.rel === 'next')?.url;
   }
 
+  function handleAxiosError(error) {
+    // https://rapidapi.com/guides/handle-axios-errors
+    if (error.response) {
+      // Request made but the server responded with an error
+      console.log('Request made but the server responded with an error');
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+      setErrorMessage(
+        `Request made but the server responded with an error: ${error.response.data}`
+      );
+    } else if (error.request) {
+      // Request made but no response is received from the server.
+      console.log('Request made but no response is received from the server.');
+      console.log(error.request);
+      setErrorMessage(
+        `Request made but no response is received from the server. ${error.request}`
+      );
+    } else {
+      // Error occured while setting up the request
+      console.log('Error:', error.message);
+      setErrorMessage(
+        `Error occured while setting up the request: ${error.message}`
+      );
+    }
+  }
+
   const handleSearch = searchTerm => {
     //console.log(searchTerm);
     setError(false);
@@ -53,33 +80,8 @@ function App() {
         setResults(apiResponse.data.results);
         setNextUrl(getNextUrl(apiResponse.headers.link));
       } catch (error) {
-        // https://rapidapi.com/guides/handle-axios-errors
         setError(true);
-        if (error.response) {
-          // Request made but the server responded with an error
-          console.log('Request made but the server responded with an error');
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-          setErrorMessage(
-            `Request made but the server responded with an error: ${error.response.data}`
-          );
-        } else if (error.request) {
-          // Request made but no response is received from the server.
-          console.log(
-            'Request made but no response is received from the server.'
-          );
-          console.log(error.request);
-          setErrorMessage(
-            `Request made but no response is received from the server. ${error.request}`
-          );
-        } else {
-          // Error occured while setting up the request
-          console.log('Error:', error.message);
-          setErrorMessage(
-            `Error occured while setting up the request: ${error.message}`
-          );
-        }
+        handleAxiosError(error);
       } finally {
         setLoading(false);
       }
@@ -89,6 +91,25 @@ function App() {
 
   const handleLoadMore = () => {
     console.log('load more btn click');
+    setError(false);
+    setErrorMessage('');
+    async function getImages() {
+      try {
+        setLoading(true);
+        const apiResponse = await fetchResponse(nextUrl);
+        setResults(prevResults => {
+          return [...prevResults, ...apiResponse.data.results];
+        });
+        // setResults(apiResponse.data.results);
+        setNextUrl(getNextUrl(apiResponse.headers.link));
+      } catch (error) {
+        setError(true);
+        handleAxiosError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getImages();
   };
 
   useEffect(() => {
