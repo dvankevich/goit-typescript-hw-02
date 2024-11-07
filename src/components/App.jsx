@@ -5,6 +5,7 @@ import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import SearchBar from './SearchBar/SearchBar';
 import { fetchResponse } from '../unsplash-api';
+import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 
 function App() {
   const [results, setResults] = useState([]);
@@ -86,6 +87,10 @@ function App() {
     getImages();
   };
 
+  const handleLoadMore = () => {
+    console.log('load more btn click');
+  };
+
   useEffect(() => {
     console.log('nextUrl: ', nextUrl);
   }, [nextUrl]);
@@ -98,6 +103,7 @@ function App() {
     <>
       <SearchBar onSubmit={handleSearch} />
       {results.length > 0 && <ImageGallery results={results} />}
+      {nextUrl !== undefined && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       {loading && <Loader />}
       {error && <ErrorMessage errorMsg={errorMessage} />}
     </>
