@@ -68,6 +68,8 @@ function App() {
     //console.log(searchTerm);
     setError(false);
     setErrorMessage('');
+    setNextUrl(undefined);
+    setResults([]);
     async function getImages() {
       try {
         setLoading(true);
