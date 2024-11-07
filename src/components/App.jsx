@@ -128,6 +128,7 @@ function App() {
       {results.length > 0 && <ImageGallery results={results} />}
       {nextUrl !== undefined && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       {loading && <Loader />}
+      <p>{results.length}</p>
       {error && <ErrorMessage errorMsg={errorMessage} />}
     </>
   );
