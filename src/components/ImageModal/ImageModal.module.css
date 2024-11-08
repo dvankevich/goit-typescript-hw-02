@@ -5,6 +5,7 @@
     right: 40px;
     bottom: 40px;
     background-color: papayawhip;
+    padding: 10px;
   }
 
   .Overlay {
@@ -17,7 +18,19 @@
   }
 
   .image {
-    padding: 10px;
     display: flex;
     justify-content: center;
+    margin: 20px 0;
+  }
+
+  .img {
+    max-width: 100%;
+    max-height: 60vh;
+    height: auto;
+  }
+
+  .h2 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
   }

@@ -11,23 +11,26 @@ const ImageModal = ({ isOpen, closeModal, img }) => {
       className={s.Modal}
       overlayClassName={s.Overlay}
     >
-      <h2>{img.alt_description}</h2>
+      <h2 className={s.h2}>{img.alt_description}</h2>
       <div className={s.image}>
-        <img src={img.urls.regular} alt={img.alt_description} />
+        <img
+          className={s.img}
+          src={img.urls.regular}
+          alt={img.alt_description}
+        />
       </div>
       <p>Likes: {img.likes}</p>
       <p>{img.description}</p>
 
-      <h3>Author</h3>
-      <p>Name: {img.user.name}</p>
-      <p>location: {img.user.location}</p>
+      <p>Author name: {img.user.name}</p>
+      {img.user.location && <p>location: {img.user.location}</p>}
+      <p>total author photos: {img.user.total_photos}</p>
+
       {img.user.portfolio_url && (
         <a href={img.user.portfolio_url} target="_blank">
           Portfolio
         </a>
       )}
-      <p>----------</p>
-      <button onClick={closeModal}>close</button>
     </Modal>
   );
 };
