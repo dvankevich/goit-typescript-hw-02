@@ -19,6 +19,7 @@ const ImageModal = ({ isOpen, closeModal, img }) => {
       }}
     >
       <img src={img.urls.regular} alt={img.alt_description} />
+      <button onClick={closeModal}>close</button>
     </Modal>
   );
 };
