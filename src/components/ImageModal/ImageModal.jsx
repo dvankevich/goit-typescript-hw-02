@@ -1,4 +1,5 @@
 import Modal from 'react-modal';
+import s from './ImageModal.module.css';
 
 Modal.setAppElement('#root');
 
@@ -7,18 +8,15 @@ const ImageModal = ({ isOpen, closeModal, img }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
-      style={{
-        overlay: {
-          backgroundColor: 'rgba(19, 19, 19, 0.5)',
-        },
-        content: {
-          padding: '0',
-          height: 'max-content',
-          overflow: 'hidden',
-        },
-      }}
+      className={s.Modal}
+      overlayClassName={s.Overlay}
     >
-      <img src={img.urls.regular} alt={img.alt_description} />
+      <div className={s.image}>
+        <img src={img.urls.regular} alt={img.alt_description} />
+      </div>
+      <h2>{img.alt_description}</h2>
+
+      <p>Likes: {img.likes}</p>
       <button onClick={closeModal}>close</button>
     </Modal>
   );
