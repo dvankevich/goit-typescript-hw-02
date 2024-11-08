@@ -9,7 +9,7 @@ import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './ImageModal/ImageModal';
 
 function App() {
-  const [results, setResults] = useState();
+  const [results, setResults] = useState([]);
   const [nextUrl, setNextUrl] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

@@ -17,7 +17,7 @@ const ImageGallery = ({ results, openModal }) => {
             >
               <ImageCard
                 small={img.urls.small}
-                regular={img.url.regular}
+                regular={img.urls.regular}
                 description={img.description}
               />
             </li>
