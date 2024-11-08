@@ -6,16 +6,29 @@ import Loader from './Loader/Loader';
 import SearchBar from './SearchBar/SearchBar';
 import { fetchResponse } from '../unsplash-api';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
+import ImageModal from './ImageModal/ImageModal';
 
 function App() {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState();
   const [nextUrl, setNextUrl] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [imageModalIsOpen, setImageModalIsOpen] = useState(false);
+  const [imageModal, setImageModal] = useState({});
 
   const apiUrl = 'https://api.unsplash.com/search/photos';
   const perPage = 15;
+
+  function openModal(img) {
+    setImageModal(img);
+    setImageModalIsOpen(true);
+  }
+
+  function closeModal() {
+    setImageModal({});
+    setImageModalIsOpen(false);
+  }
 
   function getNextUrl(input) {
     // https://poe.com/s/ZYwUlCDEFhdaAjupvpLF
@@ -125,11 +138,20 @@ function App() {
   return (
     <>
       <SearchBar onSubmit={handleSearch} />
-      {results.length > 0 && <ImageGallery results={results} />}
+      {results.length > 0 && (
+        <ImageGallery results={results} openModal={openModal} />
+      )}
       {nextUrl !== undefined && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       {loading && <Loader />}
       <p>{results.length}</p>
       {error && <ErrorMessage errorMsg={errorMessage} />}
+      {imageModalIsOpen && (
+        <ImageModal
+          isOpen={imageModalIsOpen}
+          closeModal={closeModal}
+          img={imageModal}
+        />
+      )}
     </>
   );
 }
