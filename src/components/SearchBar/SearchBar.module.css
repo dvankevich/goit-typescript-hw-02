@@ -1,0 +1,11 @@
+.header {
+  padding: 14px;
+  background-color: rebeccapurple;
+}
+
+.input {
+  color: antiquewhite;
+  border: 1px solid antiquewhite;
+  margin-right: 12px;
+  padding: 10px;
+}

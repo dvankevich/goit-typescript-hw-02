@@ -1,4 +1,5 @@
 import toast, { Toaster } from 'react-hot-toast';
+import s from './SearchBar.module.css';
 
 const SearchBar = ({ onSubmit }) => {
   const showToast = () =>
@@ -15,9 +16,10 @@ const SearchBar = ({ onSubmit }) => {
     }
   };
   return (
-    <header>
+    <header className={s.header}>
       <form onSubmit={handleSubmit}>
         <input
+          className={s.input}
           type="text"
           name="searchTerm"
           autoComplete="off"

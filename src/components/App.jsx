@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -32,7 +32,7 @@ function App() {
   }
 
   function getNextUrl(input) {
-    console.log('input: ', input);
+    // console.log('input: ', input);
 
     if (input === undefined) {
       return '';
@@ -65,23 +65,23 @@ function App() {
     // https://rapidapi.com/guides/handle-axios-errors
     if (error.response) {
       // Request made but the server responded with an error
-      console.log('Request made but the server responded with an error');
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
+      // console.log('Request made but the server responded with an error');
+      // console.log(error.response.data);
+      // console.log(error.response.status);
+      // console.log(error.response.headers);
       setErrorMessage(
         `Request made but the server responded with an error: ${error.response.data}`
       );
     } else if (error.request) {
       // Request made but no response is received from the server.
-      console.log('Request made but no response is received from the server.');
-      console.log(error.request);
+      // console.log('Request made but no response is received from the server.');
+      // console.log(error.request);
       setErrorMessage(
         `Request made but no response is received from the server. ${error.request}`
       );
     } else {
       // Error occured while setting up the request
-      console.log('Error:', error.message);
+      // console.log('Error:', error.message);
       setErrorMessage(
         `Error occured while setting up the request: ${error.message}`
       );
@@ -120,7 +120,7 @@ function App() {
   };
 
   const handleLoadMore = () => {
-    console.log('load more btn click');
+    // console.log('load more btn click');
     setError(false);
     setErrorMessage('');
     async function getImages() {
@@ -142,13 +142,13 @@ function App() {
     getImages();
   };
 
-  useEffect(() => {
-    console.log('nextUrl: ', nextUrl);
-  }, [nextUrl]);
+  // useEffect(() => {
+  //   console.log('nextUrl: ', nextUrl);
+  // }, [nextUrl]);
 
-  useEffect(() => {
-    console.log(results);
-  }, [results]);
+  // useEffect(() => {
+  //   console.log(results);
+  // }, [results]);
 
   return (
     <>
@@ -158,7 +158,6 @@ function App() {
       )}
       {nextUrl !== '' && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       {loading && <Loader />}
-      <p>{results.length}</p>
       {error && <ErrorMessage errorMsg={errorMessage} />}
       {emptySearch && <p>No images found</p>}
       {imageModalIsOpen && (
