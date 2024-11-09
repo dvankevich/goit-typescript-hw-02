@@ -159,6 +159,7 @@ function App() {
       {nextUrl !== '' && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       {loading && <Loader />}
       {error && <ErrorMessage errorMsg={errorMessage} />}
+      <ErrorMessage errorMsg="Error message" />
       {emptySearch && <p>No images found</p>}
       {imageModalIsOpen && (
         <ImageModal
