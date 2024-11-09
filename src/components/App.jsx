@@ -10,12 +10,13 @@ import ImageModal from './ImageModal/ImageModal';
 
 function App() {
   const [results, setResults] = useState([]);
-  const [nextUrl, setNextUrl] = useState(undefined);
+  const [nextUrl, setNextUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [imageModalIsOpen, setImageModalIsOpen] = useState(false);
   const [imageModal, setImageModal] = useState({});
+  const [emptySearch, setEmptySearch] = useState(false);
 
   const apiUrl = 'https://api.unsplash.com/search/photos';
   const perPage = 15;
@@ -31,6 +32,12 @@ function App() {
   }
 
   function getNextUrl(input) {
+    console.log('input: ', input);
+
+    if (input === undefined) {
+      return '';
+    }
+
     // https://poe.com/s/ZYwUlCDEFhdaAjupvpLF
     // Розбиваємо рядок на частини за комами
     const entries = input.split(',').map(entry => {
@@ -47,7 +54,11 @@ function App() {
     // Фільтруємо undefined значення (якщо є)
     const result = entries.filter(entry => entry !== undefined);
     // повертаємо об'єкт з rel="next"
-    return result.find(entry => entry.rel === 'next')?.url;
+    const nextUrl = result.find(entry => entry.rel === 'next')?.url;
+    if (nextUrl === undefined) {
+      return '';
+    }
+    return nextUrl;
   }
 
   function handleAxiosError(error) {
@@ -83,6 +94,7 @@ function App() {
     setErrorMessage('');
     setNextUrl(undefined);
     setResults([]);
+    setEmptySearch(false);
     async function getImages() {
       try {
         setLoading(true);
@@ -93,6 +105,9 @@ function App() {
         //   return [...prevResults, ...apiResponse.data.results];
         // });
         setResults(apiResponse.data.results);
+        if (apiResponse.data.results.length === 0) {
+          setEmptySearch(true);
+        }
         setNextUrl(getNextUrl(apiResponse.headers.link));
       } catch (error) {
         setError(true);
@@ -141,10 +156,11 @@ function App() {
       {results.length > 0 && (
         <ImageGallery results={results} openModal={openModal} />
       )}
-      {nextUrl !== undefined && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
+      {nextUrl !== '' && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       {loading && <Loader />}
       <p>{results.length}</p>
       {error && <ErrorMessage errorMsg={errorMessage} />}
+      {emptySearch && <p>No images found</p>}
       {imageModalIsOpen && (
         <ImageModal
           isOpen={imageModalIsOpen}
