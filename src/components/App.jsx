@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -17,9 +17,34 @@ function App() {
   const [imageModalIsOpen, setImageModalIsOpen] = useState(false);
   const [imageModal, setImageModal] = useState({});
   const [emptySearch, setEmptySearch] = useState(false);
+  const [queryUrl, setQueryUrl] = useState('');
 
   const apiUrl = 'https://api.unsplash.com/search/photos';
   const perPage = 15;
+
+  useEffect(() => {
+    if (queryUrl === '') {
+      return;
+    }
+    //console.log('queryUrl: ', queryUrl);
+    async function getImages() {
+      try {
+        setLoading(true);
+        const apiResponse = await fetchResponse(queryUrl);
+        setResults(prevResults => {
+          return [...prevResults, ...apiResponse.data.results];
+        });
+        // setResults(apiResponse.data.results);
+        setNextUrl(getNextUrl(apiResponse.headers.link));
+      } catch (error) {
+        setError(true);
+        handleAxiosError(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getImages();
+  }, [queryUrl]);
 
   function openModal(img) {
     setImageModal(img);
@@ -95,60 +120,15 @@ function App() {
     setNextUrl(undefined);
     setResults([]);
     setEmptySearch(false);
-    async function getImages() {
-      try {
-        setLoading(true);
-        const apiResponse = await fetchResponse(
-          `${apiUrl}?query=${searchTerm}&per_page=${perPage}&page=1`
-        );
-        // setResults(prevResults => {
-        //   return [...prevResults, ...apiResponse.data.results];
-        // });
-        setResults(apiResponse.data.results);
-        if (apiResponse.data.results.length === 0) {
-          setEmptySearch(true);
-        }
-        setNextUrl(getNextUrl(apiResponse.headers.link));
-      } catch (error) {
-        setError(true);
-        handleAxiosError(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    getImages();
+    setQueryUrl(`${apiUrl}?query=${searchTerm}&per_page=${perPage}&page=1`);
   };
 
   const handleLoadMore = () => {
     // console.log('load more btn click');
     setError(false);
     setErrorMessage('');
-    async function getImages() {
-      try {
-        setLoading(true);
-        const apiResponse = await fetchResponse(nextUrl);
-        setResults(prevResults => {
-          return [...prevResults, ...apiResponse.data.results];
-        });
-        // setResults(apiResponse.data.results);
-        setNextUrl(getNextUrl(apiResponse.headers.link));
-      } catch (error) {
-        setError(true);
-        handleAxiosError(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    getImages();
+    setQueryUrl(nextUrl);
   };
-
-  // useEffect(() => {
-  //   console.log('nextUrl: ', nextUrl);
-  // }, [nextUrl]);
-
-  // useEffect(() => {
-  //   console.log(results);
-  // }, [results]);
 
   return (
     <>
