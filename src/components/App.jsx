@@ -19,7 +19,7 @@ function App() {
   const [emptySearch, setEmptySearch] = useState(false);
   const [queryUrl, setQueryUrl] = useState('');
   const [query, setQuery] = useState('');
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   //const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -151,7 +151,6 @@ function App() {
     setEmptySearch(false);
     //setQueryUrl(`${apiUrl}?query=${searchTerm}&per_page=${perPage}&page=1`);
     setQuery(searchTerm);
-    setPage(1);
   };
 
   const handleLoadMore = () => {
@@ -159,7 +158,12 @@ function App() {
     setError(false);
     setErrorMessage('');
     //setQueryUrl(nextUrl);
+    setPage(prev => prev + 1);
   };
+
+  useEffect(() => {
+    console.log('current page :', page);
+  }, [page]);
 
   return (
     <>
