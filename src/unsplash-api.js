@@ -12,7 +12,7 @@ export async function fetchData(query, page) {
     const headersList = {
     Accept: '*/*',
     'Accept-Version': 'v1',
-    Authorization: 'Client-ID o4C13rGbT_u5Vq3h83n03CpOGqwS0N_oj1Gd8F1ik0g',
+    Authorization: `Client-ID ${apiKey}`,
     };
     const reqOptions = {
     url: `${apiUrl}?query=${query}&per_page=${perPage}&page=${page}`,
