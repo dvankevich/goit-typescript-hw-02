@@ -3,8 +3,10 @@ import axios from 'axios';
 const apiUrl = 'https://api.unsplash.com/search/photos';
 const perPage = 15;
 
+// захист так собі, але хоч в репозиторії світитись не буде
+// цей ключ видно в request headers
 const apiKey = import.meta.env.VITE_API_KEY;
-console.log(apiKey);
+//console.log(apiKey);
 
 
  
