@@ -4,51 +4,21 @@ import ErrorMessage from './ErrorMessage/ErrorMessage';
 import ImageGallery from './ImageGallery/ImageGallery';
 import Loader from './Loader/Loader';
 import SearchBar from './SearchBar/SearchBar';
-import { fetchResponse, fetchData } from '../unsplash-api';
+import { fetchData } from '../unsplash-api';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './ImageModal/ImageModal';
 
 function App() {
   const [results, setResults] = useState([]);
-  const [nextUrl, setNextUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [imageModalIsOpen, setImageModalIsOpen] = useState(false);
   const [imageModal, setImageModal] = useState({});
   const [emptySearch, setEmptySearch] = useState(false);
-  const [queryUrl, setQueryUrl] = useState('');
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  //const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-
-  // const apiUrl = 'https://api.unsplash.com/search/photos';
-  // const perPage = 15;
-
-  // useEffect(() => {
-  //   if (queryUrl === '') {
-  //     return;
-  //   }
-  //   //console.log('queryUrl: ', queryUrl);
-  //   async function getImages() {
-  //     try {
-  //       setLoading(true);
-  //       const apiResponse = await fetchResponse(queryUrl);
-  //       setResults(prevResults => {
-  //         return [...prevResults, ...apiResponse.data.results];
-  //       });
-  //       // setResults(apiResponse.data.results);
-  //       setNextUrl(getNextUrl(apiResponse.headers.link));
-  //     } catch (error) {
-  //       setError(true);
-  //       handleAxiosError(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  //   getImages();
-  // }, [queryUrl]);
 
   useEffect(() => {
     if (query === '') {
@@ -85,36 +55,6 @@ function App() {
     setImageModalIsOpen(false);
   }
 
-  // function getNextUrl(input) {
-  //   // console.log('input: ', input);
-
-  //   if (input === undefined) {
-  //     return '';
-  //   }
-
-  //   // https://poe.com/s/ZYwUlCDEFhdaAjupvpLF
-  //   // Розбиваємо рядок на частини за комами
-  //   const entries = input.split(',').map(entry => {
-  //     // Витягуємо URL та rel
-  //     const match = entry.match(/<([^>]+)>; rel="([^"]+)"/);
-  //     if (match) {
-  //       return {
-  //         url: match[1],
-  //         rel: match[2],
-  //       };
-  //     }
-  //   });
-
-  //   // Фільтруємо undefined значення (якщо є)
-  //   const result = entries.filter(entry => entry !== undefined);
-  //   // повертаємо об'єкт з rel="next"
-  //   const nextUrl = result.find(entry => entry.rel === 'next')?.url;
-  //   if (nextUrl === undefined) {
-  //     return '';
-  //   }
-  //   return nextUrl;
-  // }
-
   function handleAxiosError(error) {
     // https://rapidapi.com/guides/handle-axios-errors
     if (error.response) {
@@ -146,7 +86,6 @@ function App() {
     //console.log(searchTerm);
     setError(false);
     setErrorMessage('');
-    setNextUrl(undefined);
     setResults([]);
     setEmptySearch(false);
     //setQueryUrl(`${apiUrl}?query=${searchTerm}&per_page=${perPage}&page=1`);
