@@ -36,8 +36,8 @@ function App() {
           setEmptySearch(true);
         }
         setTotalPages(apiResponse.data.total_pages);
-        console.log(apiResponse.data);
-        console.log(apiResponse.data.total_pages);
+        // console.log(apiResponse.data);
+        // console.log(apiResponse.data.total_pages);
       } catch (error) {
         setError(true);
         handleAxiosError(error);
@@ -103,9 +103,9 @@ function App() {
     setPage(prev => prev + 1);
   };
 
-  useEffect(() => {
-    console.log('current page :', page);
-  }, [page]);
+  // useEffect(() => {
+  //   console.log('current page :', page);
+  // }, [page]);
 
   return (
     <>
