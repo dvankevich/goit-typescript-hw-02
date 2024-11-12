@@ -32,6 +32,9 @@ function App() {
         setResults(prevResults => {
           return [...prevResults, ...apiResponse.data.results];
         });
+        if (apiResponse.data.results.length === 0) {
+          setEmptySearch(true);
+        }
         setTotalPages(apiResponse.data.total_pages);
         console.log(apiResponse.data);
         console.log(apiResponse.data.total_pages);
