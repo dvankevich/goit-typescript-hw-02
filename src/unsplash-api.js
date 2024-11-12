@@ -2,6 +2,11 @@ import axios from 'axios';
 
 const apiUrl = 'https://api.unsplash.com/search/photos';
 const perPage = 15;
+
+const apiKey = import.meta.env.VITE_API_KEY;
+console.log(apiKey);
+
+
  
 export async function fetchData(query, page) {
     const headersList = {
