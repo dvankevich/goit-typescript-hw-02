@@ -86,13 +86,12 @@ function App() {
   }
 
   const handleSearch = searchTerm => {
-    //console.log(searchTerm);
     setError(false);
     setErrorMessage('');
     setResults([]);
     setEmptySearch(false);
-    //setQueryUrl(`${apiUrl}?query=${searchTerm}&per_page=${perPage}&page=1`);
     setQuery(searchTerm);
+    setPage(1);
   };
 
   const handleLoadMore = () => {
