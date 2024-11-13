@@ -15,7 +15,6 @@ function App() {
   const [errorMessage, setErrorMessage] = useState('');
   const [imageModalIsOpen, setImageModalIsOpen] = useState(false);
   const [imageModal, setImageModal] = useState({});
-  const [emptySearch, setEmptySearch] = useState(false);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -28,13 +27,12 @@ function App() {
     async function getImages() {
       try {
         setLoading(true);
+        setError(false);
+        setErrorMessage('');
         const apiResponse = await fetchData(query, page);
         setResults(prevResults => {
           return [...prevResults, ...apiResponse.data.results];
         });
-        if (apiResponse.data.results.length === 0) {
-          setEmptySearch(true);
-        }
         setTotalPages(apiResponse.data.total_pages);
         // console.log(apiResponse.data);
         // console.log(apiResponse.data.total_pages);
@@ -86,25 +84,16 @@ function App() {
   }
 
   const handleSearch = searchTerm => {
-    setError(false);
-    setErrorMessage('');
     setResults([]);
-    setEmptySearch(false);
     setQuery(searchTerm);
     setPage(1);
   };
 
   const handleLoadMore = () => {
-    // console.log('load more btn click');
-    setError(false);
-    setErrorMessage('');
-    //setQueryUrl(nextUrl);
     setPage(prev => prev + 1);
   };
 
-  // useEffect(() => {
-  //   console.log('current page :', page);
-  // }, [page]);
+  const isEmtpyResults = !loading && query && results.length === 0;
 
   return (
     <>
@@ -115,7 +104,7 @@ function App() {
       {page < totalPages && <LoadMoreBtn handleLoadMore={handleLoadMore} />}
       {loading && <Loader />}
       {error && <ErrorMessage errorMsg={errorMessage} />}
-      {emptySearch && <p>No images found</p>}
+      {isEmtpyResults && <p>No images found</p>}
       {imageModalIsOpen && (
         <ImageModal
           isOpen={imageModalIsOpen}
