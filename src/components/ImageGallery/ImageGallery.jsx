@@ -5,7 +5,6 @@ const ImageGallery = ({ results, openModal }) => {
   return (
     <div>
       <ul className={s.imagesList}>
-        {/* {results.map(({ id, description, urls: { small, regular } }) => { */}
         {results.map(img => {
           return (
             <li
@@ -13,11 +12,7 @@ const ImageGallery = ({ results, openModal }) => {
               className={s.imagesListItem}
               onClick={() => openModal(img)}
             >
-              <ImageCard
-                small={img.urls.small}
-                // regular={img.urls.regular}
-                description={img.description}
-              />
+              <ImageCard small={img.urls.small} description={img.description} />
             </li>
           );
         })}

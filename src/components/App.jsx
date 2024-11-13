@@ -34,8 +34,6 @@ function App() {
           return [...prevResults, ...apiResponse.data.results];
         });
         setTotalPages(apiResponse.data.total_pages);
-        // console.log(apiResponse.data);
-        // console.log(apiResponse.data.total_pages);
       } catch (error) {
         setError(true);
         handleAxiosError(error);
@@ -59,24 +57,14 @@ function App() {
   function handleAxiosError(error) {
     // https://rapidapi.com/guides/handle-axios-errors
     if (error.response) {
-      // Request made but the server responded with an error
-      // console.log('Request made but the server responded with an error');
-      // console.log(error.response.data);
-      // console.log(error.response.status);
-      // console.log(error.response.headers);
       setErrorMessage(
         `Request made but the server responded with an error: ${error.response.data}`
       );
     } else if (error.request) {
-      // Request made but no response is received from the server.
-      // console.log('Request made but no response is received from the server.');
-      // console.log(error.request);
       setErrorMessage(
         `Request made but no response is received from the server. ${error.request}`
       );
     } else {
-      // Error occured while setting up the request
-      // console.log('Error:', error.message);
       setErrorMessage(
         `Error occured while setting up the request: ${error.message}`
       );
