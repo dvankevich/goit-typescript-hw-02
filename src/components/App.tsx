@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import './App.css';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -7,17 +7,18 @@ import SearchBar from './SearchBar/SearchBar';
 import { fetchData } from '../unsplash-api';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './ImageModal/ImageModal';
+import { AxiosError } from 'axios';
 
 function App() {
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [imageModalIsOpen, setImageModalIsOpen] = useState(false);
-  const [imageModal, setImageModal] = useState({});
-  const [query, setQuery] = useState('');
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [results, setResults] = useState<object[]>([]); // тут дуже складний об'єкт і не всі поля я буду використовувати, тому поставив тип object
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [imageModalIsOpen, setImageModalIsOpen] = useState<boolean>(false);
+  const [imageModal, setImageModal] = useState<object>({});
+  const [query, setQuery] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
     if (query === '') {
@@ -30,13 +31,15 @@ function App() {
         setError(false);
         setErrorMessage('');
         const apiResponse = await fetchData(query, page);
+        console.log(apiResponse.data.results);
+
         setResults(prevResults => {
           return [...prevResults, ...apiResponse.data.results];
         });
         setTotalPages(apiResponse.data.total_pages);
       } catch (error) {
         setError(true);
-        handleAxiosError(error);
+        handleAxiosError(error as AxiosError);
       } finally {
         setLoading(false);
       }
@@ -44,7 +47,7 @@ function App() {
     getImages();
   }, [query, page]);
 
-  function openModal(img) {
+  function openModal(img: object) {
     setImageModal(img);
     setImageModalIsOpen(true);
   }
@@ -54,7 +57,7 @@ function App() {
     setImageModalIsOpen(false);
   }
 
-  function handleAxiosError(error) {
+  function handleAxiosError(error: AxiosError) {
     // https://rapidapi.com/guides/handle-axios-errors
     if (error.response) {
       setErrorMessage(
@@ -71,7 +74,7 @@ function App() {
     }
   }
 
-  const handleSearch = searchTerm => {
+  const handleSearch = (searchTerm: string) => {
     setResults([]);
     setQuery(searchTerm);
     setPage(1);
