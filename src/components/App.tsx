@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import ImageGallery from './ImageGallery/ImageGallery';
@@ -8,6 +8,7 @@ import { fetchData } from '../unsplash-api';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './ImageModal/ImageModal';
 import { AxiosError } from 'axios';
+import { ImageModalProps, Img } from './types';
 
 function App() {
   const [results, setResults] = useState<object[]>([]); // тут дуже складний об'єкт і не всі поля я буду використовувати, тому поставив тип object
@@ -15,7 +16,7 @@ function App() {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [imageModalIsOpen, setImageModalIsOpen] = useState<boolean>(false);
-  const [imageModal, setImageModal] = useState<object>({});
+  const [imageModal, setImageModal] = useState<Img | null>(null);
   const [query, setQuery] = useState<string>('');
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
@@ -47,13 +48,13 @@ function App() {
     getImages();
   }, [query, page]);
 
-  function openModal(img: object) {
+  function openModal(img: Img) {
     setImageModal(img);
     setImageModalIsOpen(true);
   }
 
   function closeModal() {
-    setImageModal({});
+    setImageModal(null);
     setImageModalIsOpen(false);
   }
 
@@ -96,7 +97,7 @@ function App() {
       {loading && <Loader />}
       {error && <ErrorMessage errorMsg={errorMessage} />}
       {isEmtpyResults && <p>No images found</p>}
-      {imageModalIsOpen && (
+      {imageModalIsOpen && imageModal && (
         <ImageModal
           isOpen={imageModalIsOpen}
           closeModal={closeModal}
