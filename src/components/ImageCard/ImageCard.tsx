@@ -1,6 +1,11 @@
 import s from './ImageCard.module.css';
 
-const ImageCard = ({ description, small }) => {
+type ImageCardProps = {
+  description: string;
+  small: string;
+};
+
+const ImageCard = ({ description, small }: ImageCardProps) => {
   return <img className={s.img} src={small} alt={description} />;
 };
 
