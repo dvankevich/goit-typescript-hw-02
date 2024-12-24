@@ -1,5 +1,5 @@
 import ImageCard from '../ImageCard/ImageCard';
-import { Img, ResultsImg } from '../types';
+import { ResultsImg } from '../types';
 import s from './ImageGallery.module.css';
 
 type ImageGalleryProps = {

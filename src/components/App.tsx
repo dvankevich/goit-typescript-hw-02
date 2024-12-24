@@ -8,7 +8,7 @@ import { fetchData } from '../unsplash-api';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './ImageModal/ImageModal';
 import { AxiosError } from 'axios';
-import { ImageModalProps, Img, ResultsImg } from './types';
+import { Img, ResultsImg } from './types';
 
 function App() {
   const [results, setResults] = useState<ResultsImg[]>([]);
@@ -32,7 +32,7 @@ function App() {
         setError(false);
         setErrorMessage('');
         const apiResponse = await fetchData(query, page);
-        console.log(apiResponse.data.results);
+        //console.log(apiResponse.data.results);
 
         setResults(prevResults => {
           return [...prevResults, ...apiResponse.data.results];
