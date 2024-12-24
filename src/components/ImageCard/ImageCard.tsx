@@ -5,7 +5,7 @@ type ImageCardProps = {
   small: string;
 };
 
-const ImageCard = ({ description, small }: ImageCardProps) => {
+const ImageCard = ({ description = '', small }: ImageCardProps) => {
   return <img className={s.img} src={small} alt={description} />;
 };
 
