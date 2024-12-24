@@ -8,10 +8,10 @@ import { fetchData } from '../unsplash-api';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './ImageModal/ImageModal';
 import { AxiosError } from 'axios';
-import { ImageModalProps, Img } from './types';
+import { ImageModalProps, Img, ResultsImg } from './types';
 
 function App() {
-  const [results, setResults] = useState<object[]>([]); // тут дуже складний об'єкт і не всі поля я буду використовувати, тому поставив тип object
+  const [results, setResults] = useState<ResultsImg[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');

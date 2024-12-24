@@ -1,7 +1,7 @@
 import s from './ImageCard.module.css';
 
 type ImageCardProps = {
-  description: string;
+  description: string | undefined;
   small: string;
 };
 

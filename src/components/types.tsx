@@ -8,11 +8,16 @@ export interface User {
 export interface Img {
   alt_description: string;
   urls: {
+    small: string;
     regular: string;
   };
   likes: number;
   description?: string;
   user: User;
+}
+
+export interface ResultsImg extends Img {
+  id: string;
 }
 
 export interface ImageModalProps {
