@@ -1,5 +1,11 @@
 import axios, { AxiosRequestConfig, RawAxiosRequestHeaders } from 'axios';
 import { AxiosResponse } from 'axios';
+import { ResultsImg } from './components/types';
+
+interface ApiResponse {
+  results: ResultsImg[];
+  total_pages: number;
+}
 
 const apiUrl: string = 'https://api.unsplash.com/search/photos';
 const perPage: number = 15;
@@ -12,7 +18,7 @@ const apiKey: string = import.meta.env.VITE_API_KEY;
 export async function fetchData(
   query: string,
   page: number
-): Promise<AxiosResponse<any>> {
+): Promise<AxiosResponse<ApiResponse>> {
   const headersList = {
     Accept: '*/*',
     'Accept-Version': 'v1',
@@ -24,6 +30,7 @@ export async function fetchData(
     headers: headersList as RawAxiosRequestHeaders,
   };
 
-  const response = await axios.request(reqOptions);
+  const response = await axios.request<ApiResponse>(reqOptions);
+
   return response;
 }
